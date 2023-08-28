@@ -22,7 +22,10 @@ const CalculateWinner = (board) => {
   return null
 }
 
-const winner = computed(() => CalculateWinner(board.value.flat()))
+const winner = computed(() => CalculateWinner(board.value.flat()));
+const isDraw = computed(() => {
+  return !winner.value && board.value.flat().every(cell => cell !== '');
+});
 
 const MakeMove = (x, y) => {
 	if (winner.value) return
@@ -68,7 +71,7 @@ const ResetGame = () => {
 
 		<div class="text-center">
 			<h2 v-if="winner" class="text-6xl font-bold mb-8">Player '{{ winner }}' wins!</h2>
-			
+			<h2 v-else-if="isDraw" class="text-6xl font-bold mb-8">It's a draw!</h2>
 			<button @click="ResetGame" class="mb-4 px-4 py-2 bg-pink-500 rounded uppercase font-bold hover:bg-pink-600 duration-300">Reset</button>
 		</div>
 	</main>
